@@ -3,7 +3,7 @@ Angular library generated with angular-cli (6.0.3) for more information and a fu
 
 ![alt text](https://raw.githubusercontent.com/daniele-zurico/library-ngx-data-table/master-detail/master-detail.jpg)
 
-#dependencies
+# dependencies
 This packages require:
 
 ```
@@ -14,7 +14,7 @@ This packages require:
 ```
 
 
-#Usage:
+# Usage:
 npm install --save npm install @angular/material @angular/cdk ngx-nested-data-table
 
 In your module:
