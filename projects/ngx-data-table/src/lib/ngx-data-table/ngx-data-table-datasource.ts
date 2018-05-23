@@ -14,6 +14,10 @@ export class NgxDataTableDataSource extends DataSource<any> {
   constructor(private paginator: MatPaginator, private _data: any[], private sort: MatSort) {
     super();
     this.data = _data;
+    // Master detail table
+    const rows = [];
+    _data.forEach(element =>  element.details ? rows.push(element, {detailRow: true, element}) : rows.push(element));
+    this.data = rows;
   }
 
   /**
