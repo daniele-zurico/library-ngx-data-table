@@ -10,7 +10,7 @@ import { Observable, of as observableOf, merge } from 'rxjs';
  * (including sorting, pagination, and filtering).
  */
 export class NgxDataTableDataSource extends DataSource<any> {
-  private data: any[];
+  public data: any[];
   constructor(private paginator: MatPaginator, private _data: any[], private sort: MatSort) {
     super();
     this.data = _data;

@@ -1,7 +1,6 @@
 # DataTable
 Angular library generated with angular-cli for more information and a full explanation go on this link: http://www.dzurico.com/generate-a-library-with-angular-6/
 
-![alt text](https://github.com/daniele-zurico/library-ngx-data-table/blob/master-detail/master-detail.jpg)
 
 #Usage:
 npm install --save npm install @angular/material @angular/cdk ngx-nested-data-table
