@@ -1,7 +1,7 @@
 # DataTable
 Angular library generated with angular-cli (6.0.3) for more information and a full explanation go on this link: http://www.dzurico.com/generate-a-library-with-angular-6/
 
-![alt text](https://raw.githubusercontent.com/daniele-zurico/library-ngx-data-table/blob/master-detail/master-detail.jpg)
+![alt text](https://raw.githubusercontent.com/daniele-zurico/library-ngx-data-table/master-detail/master-detail.jpg)
 
 #dependencies
 This packages require:
