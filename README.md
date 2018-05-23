@@ -15,8 +15,9 @@ This packages require:
 
 
 # Usage:
+```
 npm install --save npm install @angular/material @angular/cdk ngx-nested-data-table
-
+```
 In your module:
 ```
   imports: [
