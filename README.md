@@ -3,7 +3,8 @@ Angular library generated with angular-cli for more information and a full expla
 
 If you want to have a master detail table nest your data in a "details" array:
 
-example: 
+example:
+```
 data: any[] = [
   {
     name: 'daniele',
@@ -32,3 +33,4 @@ data: any[] = [
     ]
   }
 ];
+```
