@@ -127,7 +127,7 @@
       "root": "projects/ngx-data-table",
       "sourceRoot": "projects/ngx-data-table/src",
       "projectType": "library",
-      "prefix": "lib",
+      "prefix": "ngx",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
