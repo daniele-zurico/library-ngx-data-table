@@ -1,8 +1,7 @@
 import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator, MatSort } from '@angular/material';
 import { map } from 'rxjs/operators';
-import { Observable, of as observableOf, merge } from 'rxjs';
-
+import { Observable, of as observableOf, merge, BehaviorSubject } from 'rxjs';
 
 /**
  * Data source for the NgxDataTable view. This class should
@@ -11,12 +10,29 @@ import { Observable, of as observableOf, merge } from 'rxjs';
  */
 export class NgxDataTableDataSource extends DataSource<any> {
   public data: any[];
-  constructor(private paginator: MatPaginator, private _data: any[], private sort: MatSort) {
+  _filterChange = new BehaviorSubject('');
+  get filter(): string {
+    return this._filterChange.value;
+  }
+  set filter(filter: string) {
+    this._filterChange.next(filter);
+  }
+
+  constructor(
+    private paginator: MatPaginator,
+    private _data: any[],
+    private sort: MatSort
+  ) {
     super();
     this.data = _data;
     // Master detail table
     const rows = [];
-    _data.forEach(element =>  element.details ? rows.push(element, {detailRow: true, element}) : rows.push(element));
+    _data.forEach(
+      element =>
+        element.details
+          ? rows.push(element, { detailRow: true, element })
+          : rows.push(element)
+    );
     this.data = rows;
   }
 
@@ -31,15 +47,21 @@ export class NgxDataTableDataSource extends DataSource<any> {
     const dataMutations = [
       observableOf(this.data),
       this.paginator.page,
-      this.sort.sortChange
+      this.sort.sortChange,
+      this._filterChange,
     ];
 
     // Set the paginators length
     this.paginator.length = this.data.length;
 
-    return merge(...dataMutations).pipe(map(() => {
-      return this.getPagedData(this.getSortedData([...this.data]));
-    }));
+    return merge(...dataMutations).pipe(
+      map(() => {
+        return this.data.slice().filter((item: any) => {
+          console.log(this.filter);
+          return this.getPagedData(this.getSortedData([...this.data]));
+        });
+      })
+    );
   }
 
   /**
@@ -62,6 +84,7 @@ export class NgxDataTableDataSource extends DataSource<any> {
    * this would be replaced by requesting the appropriate data from the server.
    */
   private getSortedData(data: any[]) {
+    debugger;
     if (!this.sort.active || this.sort.direction === '') {
       return data;
     }
