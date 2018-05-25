@@ -13,11 +13,10 @@ import {
   selector: 'ngx-data-table',
   templateUrl: './ngx-data-table.component.html',
   styles: [
-    `
-    .detail-table {display: flex; flex-direction: column; display: block; margin: 10px; width: 100%;}
+    `.detail-table {display: flex;flex-direction: column;display: block;margin: 10px;width: 100%;}
     .expand-icon {color: rgba(0,0,0,.44);font-size: 12px; margin-right: 5px; cursor: pointer;}
-    .col-value {margin-left: 15px;}
-  `,
+    .col-value:first-child span{margin-left: 15px;}
+    .mat-form-field {padding: 10px 10px 0 10px;width: calc(100% - 20px);}`
   ],
   animations: [
     trigger('detailExpand', [
@@ -70,8 +69,6 @@ export class NgxDataTableComponent {
   }
 
   applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
 }

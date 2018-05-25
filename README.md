@@ -1,5 +1,13 @@
-# DataTable
-Angular library generated with angular-cli (6.0.3) for more information and a full explanation go on this link: http://www.dzurico.com/generate-a-library-with-angular-6/
+# Master Detail table
+Master detail table built on top of angular material. It allows to nested as much as table you want. 
+To Have a nested table your object need to contain a an array with the name `details` (see the example if you not sure).
+
+# Features:
+- master detail table 
+- search
+- paginator (visible if you've more then 25 items)
+- order
+
 
 ![alt text](https://raw.githubusercontent.com/daniele-zurico/library-ngx-data-table/master-detail/master-detail.jpg)
 
