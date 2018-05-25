@@ -1,8 +1,7 @@
 import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator, MatSort } from '@angular/material';
 import { map } from 'rxjs/operators';
-import { Observable, of as observableOf, merge } from 'rxjs';
-
+import {Observable, of as observableOf, merge, BehaviorSubject, combineLatest} from 'rxjs';
 
 /**
  * Data source for the NgxDataTable view. This class should
@@ -11,12 +10,31 @@ import { Observable, of as observableOf, merge } from 'rxjs';
  */
 export class NgxDataTableDataSource extends DataSource<any> {
   public data: any[];
-  constructor(private paginator: MatPaginator, private _data: any[], private sort: MatSort) {
+  _filterChange = new BehaviorSubject<string>('');
+  filteredData: any[];
+
+  get filter(): string {
+    return this._filterChange.value;
+  }
+  set filter(filter: string) {
+    this._filterChange.next(filter);
+  }
+
+  constructor(
+    private paginator: MatPaginator,
+    private _data: any[],
+    private sort: MatSort
+  ) {
     super();
     this.data = _data;
     // Master detail table
     const rows = [];
-    _data.forEach(element =>  element.details ? rows.push(element, {detailRow: true, element}) : rows.push(element));
+    _data.forEach(
+      element =>
+        element.details
+          ? rows.push(element, { detailRow: true, element })
+          : rows.push(element)
+    );
     this.data = rows;
   }
 
@@ -31,15 +49,46 @@ export class NgxDataTableDataSource extends DataSource<any> {
     const dataMutations = [
       observableOf(this.data),
       this.paginator.page,
-      this.sort.sortChange
+      this.sort.sortChange,
+      this._filterChange,
     ];
 
-    // Set the paginators length
+    // Set the paginator length
     this.paginator.length = this.data.length;
 
-    return merge(...dataMutations).pipe(map(() => {
-      return this.getPagedData(this.getSortedData([...this.data]));
-    }));
+    return merge(...dataMutations).pipe(
+      map(() => {
+        const filtered = this._filterData(this._data);
+        this.data = this._enrichData(filtered);
+        return this.getPagedData(this.getSortedData([...this.data]));
+      })
+    );
+  }
+
+  private _enrichData(filtered) {
+    const rows = [];
+    filtered.forEach(
+      element =>
+        element.details
+          ? rows.push(element, {detailRow: true, element})
+          : rows.push(element)
+    );
+    return rows;
+  }
+
+  private _filterData(data: any[]) {
+    this.filteredData =
+      !this.filter ? data : data.filter(obj => {
+      // Transform the data into a lowercase string of all property values.
+      const accumulator = (currentTerm, key) => currentTerm + obj[key];
+      const dataStr = Object.keys(obj).reduce(accumulator, '').toLowerCase();
+
+      // Transform the filter by converting it to lowercase and removing whitespace.
+      const transformedFilter = this.filter.trim().toLowerCase();
+
+      return dataStr.indexOf(transformedFilter) !== -1;
+    });
+    return this.filteredData;
   }
 
   /**
